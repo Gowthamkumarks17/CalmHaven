@@ -8,7 +8,8 @@ const PORT = 8080;
 const JWT_SECRET_KEY = 'your-secret-key-123';
 
 // Gemini API Configuration - Use environment variable
-const GEMINI_API_KEY = add your api key;
+// const GEMINI_API_KEY = add your api key;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // MongoDB Connection
 const connectDB = async () => {
