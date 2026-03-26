@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 require('./config/env');
 console.log("ENV MONGO:", process.env.MONGODB_URL);
 // require('dotenv').config();
+=======
+require('dotenv').config();
+>>>>>>> f26d2b40c17fa8ceb7de908f25c7f88478e403ae
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./Config/db');
