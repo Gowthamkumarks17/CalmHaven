@@ -1,3 +1,4 @@
+import API_URL from '../config';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import "./Login.css";
@@ -42,7 +43,8 @@ const Login = () => {
 
     try {
       console.log('Attempting login...');
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+      // const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

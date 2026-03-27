@@ -1,3 +1,4 @@
+import API_URL from '../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Survey.css';
@@ -115,7 +116,8 @@ function Survey() {
             const metrics = mapAnswersToMetrics();
             console.log('Submitting metrics:', metrics);
 
-            const response = await fetch('http://localhost:8080/api/todos/generate', {
+            // const response = await fetch('http://localhost:8080/api/todos/generate', {
+            const response = await fetch(`${API_URL}/api/todos/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Chatbot.css';
 import chatbot_icon from '../assets/icons/chatbot.png';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+// const API_BASE_URL = 'http://localhost:8080/api';
+import API_URL from '../config';
+const API_BASE_URL = `${API_URL}/api`;
 
 const Chatbot = ({ isLoggedIn }) => {
     const [isChatOpen, setIsChatOpen] = useState(false);

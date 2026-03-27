@@ -1,3 +1,4 @@
+import API_URL from '../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TodoList.css';
@@ -24,7 +25,8 @@ function TodoList() {
                 throw new Error('Please login again');
             }
 
-            const response = await fetch('http://localhost:8080/api/todos', {
+            // const response = await fetch('http://localhost:8080/api/todos', {
+            const response = await fetch(`${API_URL}/api/todos`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -57,7 +59,8 @@ function TodoList() {
             const token = localStorage.getItem('token');
             const todo = todos.find(t => t._id === todoId);
             
-            const response = await fetch(`http://localhost:8080/api/todos/${todoId}`, {
+            // const response = await fetch(`http://localhost:8080/api/todos/${todoId}`, {
+            const response = await fetch(`${API_URL}/api/todos/${todoId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
