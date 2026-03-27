@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: 306015045840.dkr.ecr.us-east-1.amazonaws.com/calmhaven-backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MONGODB_URL
+              value: "mongodb+srv://gowthamks_db_user:database1234@cluster0.8rn1bal.mongodb.net/CalmHavenDB?retryWrites=true&w=majority"
+            - name: JWT_SECRET_KEY
+              value: "secret123"
+            - name: GEMINI_API_KEY
+              value: "dummykey123"
