@@ -139,3 +139,4 @@ Remember: Write your response as if you're having a natural conversation, withou
 };
 
 module.exports = chatController;
+module.exports = chatController;
