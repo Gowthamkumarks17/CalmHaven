@@ -1,26 +1,72 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Step 1: Checkout code
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       #  Step 2: Show files (debug step)
+#       - name: List files
+#         run: ls -R
+
+#       #  Step 3: Build backend Docker image
+#       - name: Build Backend Image
+#         run: |
+#           docker build -t calmhaven-backend ./Backend
+
+name: Build and Push to ECR
 
 on:
   push:
     branches:
       - main
 
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # ✅ Checkout
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #  Step 2: Show files (debug step)
-      - name: List files
-        run: ls -R
+      # ✅ Configure AWS
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      #  Step 3: Build backend Docker image
+      # ✅ Login to ECR
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | \
+          docker login --username AWS --password-stdin \
+          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      # 🐳 Build Backend
       - name: Build Backend Image
         run: |
-          docker build -t calmhaven-backend ./Backend
+          docker build -t backend ./Backend
+          docker tag backend:latest \
+          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
 
-          
+      # 📦 Push to ECR
+      - name: Push Backend Image
+        run: |
+          docker push \
+          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/${{ secrets.ECR_REPOSITORY_BACKEND }}:latest
