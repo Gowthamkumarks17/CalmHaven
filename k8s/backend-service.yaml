@@ -8,6 +8,6 @@ spec:
   ports:
     - port: 8000
       targetPort: 8000
-  type: ClusterIP
+  # type: ClusterIP       # it will access the app from cluster or pods.
+    type: LoadBalancer    # to access the app from internet
   ####just working .
-  
